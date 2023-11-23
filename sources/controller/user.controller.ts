@@ -35,6 +35,7 @@ const loginWithUsernameAndPassword = async (req: Request, res: Response): Promis
             password: reqData.password,
             body: allEntries[0]
         })
+        console.log(response)
         return res.json(response)
     }
     catch (err) {

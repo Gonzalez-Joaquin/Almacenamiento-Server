@@ -3,6 +3,7 @@ import morgan from 'morgan'
 import cors from 'cors'
 
 import usersRouter from './routes/users.routes'
+import toolsRouter from './routes/tools.routes'
 
 class App {
     private App: express.Application
@@ -24,6 +25,7 @@ class App {
 
     Routes() {
         this.App.use('/users', usersRouter)
+        this.App.use('/tools', toolsRouter)
     }
 
     async Listen(): Promise<void> {
