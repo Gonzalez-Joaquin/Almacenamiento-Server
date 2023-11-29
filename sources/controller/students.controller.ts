@@ -1,11 +1,10 @@
 import { Request, Response } from "express"
 import getConnection from "../database/database"
-// import findTool from '../utils/findTool'
 
 const getEntries = async (_req: Request, res: Response): Promise<Response | void> => {
     try {
         const connection = await getConnection()
-        const allEntries = await connection.query('SELECT * FROM tools')
+        const allEntries = await connection.query('SELECT * FROM students')
         return res.json(allEntries[0])
     }
     catch (err) {
@@ -15,10 +14,9 @@ const getEntries = async (_req: Request, res: Response): Promise<Response | void
 
 const addEntry = async (req: Request, res: Response): Promise<Response | void> => {
     try {
-        const newEntry = { name: req.body.name, stock: req.body.stock }
         const connection = await getConnection()
-        await connection.query('INSERT INTO tools SET ?', [newEntry])
-        return res.json({ message: 'Se añadio una herramienta' })
+        await connection.query('INSERT INTO students SET ?', [req.body])
+        return res.json({ message: 'Se añadio un estudiante!' })
     }
     catch (err) {
         res.sendStatus(400).send(err)
@@ -27,10 +25,9 @@ const addEntry = async (req: Request, res: Response): Promise<Response | void> =
 
 const updateEntry = async (req: Request, res: Response) => {
     try {
-        console.log(req.body)
         const connection = await getConnection()
-        await connection.query('UPDATE tools set ? WHERE id = ?', [req.body, +req.params.id]);
-        res.json({ message: 'Tu herramienta fue actualizada' });
+        await connection.query('UPDATE students set ? WHERE id = ?', [req.body, +req.params.id]);
+        res.json({ message: 'El estudiante fue actualizado' });
     }
     catch (err) {
         res.sendStatus(400).send(err)
@@ -40,12 +37,12 @@ const updateEntry = async (req: Request, res: Response) => {
 const deleteEntry = async (req: Request, res: Response) => {
     try {
         const connection = await getConnection()
-        await connection.query('DELETE FROM tools WHERE id = ?', [+req.params.id])
-        res.status(200).json({ message: `Herramienta con id ${+req.params.id} fue eliminada` })
+        await connection.query('DELETE FROM students WHERE id = ?', [+req.params.id])
+        res.status(200).json({ message: `Estudiante con id ${+req.params.id} fue eliminado` })
     }
     catch (err) {
         res.sendStatus(400).send(err)
     }
 }
 
-export default { getEntries, addEntry, deleteEntry, updateEntry }
+export default { getEntries, addEntry, updateEntry, deleteEntry }

@@ -9,7 +9,7 @@ const getEntries = async (_req: Request, res: Response): Promise<Response | void
         return res.json(allEntries[0])
     }
     catch (err) {
-        console.error('El problema es: ', err)
+        res.sendStatus(400).send(err)
     }
 }
 
@@ -21,7 +21,7 @@ const addEntry = async (req: Request, res: Response): Promise<Response | void> =
         return res.json({ message: 'Se añadio un usuario' })
     }
     catch (err) {
-        console.error('El problema es: ', err)
+        res.sendStatus(400).send(err)
     }
 }
 

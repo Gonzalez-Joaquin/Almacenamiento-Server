@@ -4,6 +4,7 @@ import cors from 'cors'
 
 import usersRouter from './routes/users.routes'
 import toolsRouter from './routes/tools.routes'
+import studentsRouter from './routes/students.routes'
 
 class App {
     private App: express.Application
@@ -26,6 +27,7 @@ class App {
     Routes() {
         this.App.use('/users', usersRouter)
         this.App.use('/tools', toolsRouter)
+        this.App.use('/students', studentsRouter)
     }
 
     async Listen(): Promise<void> {
