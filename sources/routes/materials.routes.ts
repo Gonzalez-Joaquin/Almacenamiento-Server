@@ -1,16 +1,17 @@
 import { Router } from 'express'
 
-import controller from '../controller/students.controller'
+import controller from '../controller/materials.controller'
 
-const studentsRouter = Router()
+const materialRouter = Router()
 
-studentsRouter.route('/')
+materialRouter.route('/')
     .get(controller.getEntries)
     .post(controller.addEntry)
 
-studentsRouter.route('/:id')
+materialRouter.route('/:id')
     .get(controller.getEntry)
     .put(controller.updateEntry)
     .delete(controller.deleteEntry)
 
-export default studentsRouter
+
+export default materialRouter

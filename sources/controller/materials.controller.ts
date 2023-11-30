@@ -4,7 +4,7 @@ import getConnection from "../database/database"
 const getEntries = async (_req: Request, res: Response): Promise<Response | void> => {
     try {
         const connection = await getConnection()
-        const allEntries = await connection.query('SELECT * FROM tools')
+        const allEntries = await connection.query('SELECT * FROM materials')
         return res.json(allEntries[0])
     }
     catch (err) {
@@ -14,10 +14,9 @@ const getEntries = async (_req: Request, res: Response): Promise<Response | void
 
 const addEntry = async (req: Request, res: Response): Promise<Response | void> => {
     try {
-        const newEntry = { name: req.body.name, stock: req.body.stock }
         const connection = await getConnection()
-        await connection.query('INSERT INTO tools SET ?', [newEntry])
-        return res.json({ message: 'Se añadio una herramienta' })
+        await connection.query('INSERT INTO materials SET ?', [req.body])
+        return res.json({ message: 'Se añadio un material!' })
     }
     catch (err) {
         res.sendStatus(400).send(err)
@@ -27,7 +26,7 @@ const addEntry = async (req: Request, res: Response): Promise<Response | void> =
 const getEntry = async (req: Request, res: Response) => {
     try {
         const connection = await getConnection()
-        const entry = await connection.query('SELECT * FROM tools WHERE id = ?', [+req.params.id])
+        const entry = await connection.query('SELECT * FROM materials WHERE id = ?', [+req.params.id])
         res.json(entry[0])
     }
     catch (err) { res.sendStatus(400).send(err) }
@@ -35,10 +34,9 @@ const getEntry = async (req: Request, res: Response) => {
 
 const updateEntry = async (req: Request, res: Response) => {
     try {
-        console.log(req.body)
         const connection = await getConnection()
-        await connection.query('UPDATE tools set ? WHERE id = ?', [req.body, +req.params.id]);
-        res.json({ message: 'Tu herramienta fue actualizada' });
+        await connection.query('UPDATE students set ? WHERE id = ?', [req.body, +req.params.id]);
+        res.json({ message: 'El material fue actualizado' });
     }
     catch (err) {
         res.sendStatus(400).send(err)
@@ -48,12 +46,12 @@ const updateEntry = async (req: Request, res: Response) => {
 const deleteEntry = async (req: Request, res: Response) => {
     try {
         const connection = await getConnection()
-        await connection.query('DELETE FROM tools WHERE id = ?', [+req.params.id])
-        res.status(200).json({ message: `Herramienta con id ${+req.params.id} fue eliminada` })
+        await connection.query('DELETE FROM materials WHERE id = ?', [+req.params.id])
+        res.status(200).json({ message: `Material con id ${+req.params.id} fue eliminado` })
     }
     catch (err) {
         res.sendStatus(400).send(err)
     }
 }
 
-export default { getEntries, addEntry, deleteEntry, updateEntry, getEntry }
+export default { getEntries, addEntry, updateEntry, deleteEntry, getEntry }

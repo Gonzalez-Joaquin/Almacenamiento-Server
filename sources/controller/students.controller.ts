@@ -23,6 +23,15 @@ const addEntry = async (req: Request, res: Response): Promise<Response | void> =
     }
 }
 
+const getEntry = async (req: Request, res: Response) => {
+    try {
+        const connection = await getConnection()
+        const entry = await connection.query('SELECT * FROM students WHERE id = ?', [+req.params.id])
+        res.json(entry[0])
+    }
+    catch (err) { res.sendStatus(400).send(err) }
+}
+
 const updateEntry = async (req: Request, res: Response) => {
     try {
         const connection = await getConnection()
@@ -45,4 +54,4 @@ const deleteEntry = async (req: Request, res: Response) => {
     }
 }
 
-export default { getEntries, addEntry, updateEntry, deleteEntry }
+export default { getEntries, addEntry, updateEntry, deleteEntry, getEntry }

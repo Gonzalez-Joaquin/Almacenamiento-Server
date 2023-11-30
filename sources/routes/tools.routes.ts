@@ -9,6 +9,7 @@ toolsRouter.route('/')
     .post(Controller.addEntry)
 
 toolsRouter.route('/:id')
+    .get(Controller.getEntry)
     .delete(Controller.deleteEntry)
     .put(Controller.updateEntry)
 
