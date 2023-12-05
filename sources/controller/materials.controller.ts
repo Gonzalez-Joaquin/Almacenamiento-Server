@@ -54,4 +54,17 @@ const deleteEntry = async (req: Request, res: Response) => {
     }
 }
 
-export default { getEntries, addEntry, updateEntry, deleteEntry, getEntry }
+const materialsRemoval = async (req: Request, res: Response): Promise<Response | void> => {
+    try {
+      const { estudiante_id, materiales } = req.body
+      const connection = await getConnection()
+      await connection.query('CALL realizar_retiro(?, ?)', [estudiante_id, JSON.stringify(materiales)])
+  
+      return res.json({ message: 'Retiro realizado exitosamente' })
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Error interno del servidor' })
+    }
+  }
+
+export default { getEntries, addEntry, updateEntry, deleteEntry, getEntry, materialsRemoval }

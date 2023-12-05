@@ -30,12 +30,7 @@ const loginWithUsernameAndPassword = async (req: Request, res: Response): Promis
         const reqData = { username: req.body.username, password: req.body.password }
         const connection = await getConnection()
         const allEntries = await connection.query('SELECT * FROM users')
-        const response = findUser({
-            username: reqData.username,
-            password: reqData.password,
-            body: allEntries[0]
-        })
-        console.log(response)
+        const response = findUser({ username: reqData.username, password: reqData.password, body: allEntries[0] })
         return res.json(response)
     }
     catch (err) {
