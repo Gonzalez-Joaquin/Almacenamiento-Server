@@ -15,9 +15,8 @@ const getEntries = async (_req: Request, res: Response): Promise<Response | void
 
 const addEntry = async (req: Request, res: Response): Promise<Response | void> => {
     try {
-        const newEntry = { username: req.body.username, password: req.body.password, permissions: req.body.permissions }
         const connection = await getConnection()
-        await connection.query('INSERT INTO users SET ?', [newEntry])
+        await connection.query('INSERT INTO users SET ?', [req.body])
         return res.json({ message: 'Se añadio un usuario' })
     }
     catch (err) {

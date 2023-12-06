@@ -14,9 +14,8 @@ const getEntries = async (_req: Request, res: Response): Promise<Response | void
 
 const addEntry = async (req: Request, res: Response): Promise<Response | void> => {
     try {
-        const newEntry = { name: req.body.name, course: req.body.course }
         const connection = await getConnection()
-        await connection.query('INSERT INTO category SET ?', [newEntry])
+        await connection.query('INSERT INTO category SET ?', [req.body])
         return res.json({ message: 'Se añadio un proyecto' })
     }
     catch (err) {

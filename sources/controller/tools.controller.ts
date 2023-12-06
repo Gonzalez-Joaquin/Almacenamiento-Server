@@ -14,9 +14,8 @@ const getEntries = async (_req: Request, res: Response): Promise<Response | void
 
 const addEntry = async (req: Request, res: Response): Promise<Response | void> => {
     try {
-        const newEntry = { name: req.body.name, stock: req.body.stock }
         const connection = await getConnection()
-        await connection.query('INSERT INTO tools SET ?', [newEntry])
+        await connection.query('INSERT INTO tools SET ?', [req.body])
         return res.json({ message: 'Se añadio una herramienta' })
     }
     catch (err) {
