@@ -24,6 +24,37 @@ const addEntry = async (req: Request, res: Response): Promise<Response | void> =
     }
 }
 
+const updateEntry = async (req: Request, res: Response): Promise<Response | void> => {
+    try {
+        const connection = await getConnection()
+        await connection.query('UPDATE INTO users SET ?', [req.body, +req.params.id])
+        return res.json({ message: 'Se actualizó correctamente.' })
+    }
+    catch (err) {
+        res.sendStatus(400).send(err)
+    }
+}
+
+const deleteEntry = async (req: Request, res: Response): Promise<Response | void> => {
+    try {
+        const connection = await getConnection()
+        await connection.query('DELETE INTO users SET ?', [+req.params.id])
+        return res.json({ message: 'Se eliminó correctamente.' })
+    }
+    catch (err) {
+        res.sendStatus(400).send(err)
+    }
+}
+
+const getEntry = async (req: Request, res: Response) => {
+    try {
+        const connection = await getConnection()
+        const entry = await connection.query('SELECT * FROM users WHERE id = ?', [+req.params.id])
+        res.json(entry[0])
+    }
+    catch (err) { res.sendStatus(400).send(err) }
+}
+
 const loginWithUsernameAndPassword = async (req: Request, res: Response): Promise<Response | void> => {
     try {
         const reqData = { username: req.body.username, password: req.body.password }
@@ -37,4 +68,4 @@ const loginWithUsernameAndPassword = async (req: Request, res: Response): Promis
     }
 }
 
-export default { getEntries, addEntry, loginWithUsernameAndPassword }
+export default { getEntries, addEntry, loginWithUsernameAndPassword, updateEntry, deleteEntry, getEntry }
