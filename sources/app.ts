@@ -6,6 +6,7 @@ import usersRouter from './routes/users.routes'
 import toolsRouter from './routes/tools.routes'
 import studentsRouter from './routes/students.routes'
 import materialRouter from './routes/materials.routes'
+import categoryRouter from './routes/category.routes'
 
 class App {
     private App: express.Application
@@ -30,6 +31,7 @@ class App {
         this.App.use('/tools', toolsRouter)
         this.App.use('/students', studentsRouter)
         this.App.use('/materials', materialRouter)
+        this.App.use('/category', categoryRouter)
     }
 
     async Listen(): Promise<void> {
