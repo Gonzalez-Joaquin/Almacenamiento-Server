@@ -1,5 +1,7 @@
 import { Request, Response } from "express"
+
 import getConnection from "../database/database"
+import services from '../services/students.service'
 
 const getEntries = async (_req: Request, res: Response): Promise<Response | void> => {
     try {
@@ -54,4 +56,16 @@ const deleteEntry = async (req: Request, res: Response) => {
     }
 }
 
-export default { getEntries, addEntry, updateEntry, deleteEntry, getEntry }
+const getEntryByDocument = async (req: Request, res: Response) => {
+    try {
+        const connection = await getConnection()
+        const allEntries = await connection.query('SELECT * FROM students')
+        const response = services.searchByDocument(+req.params.id, allEntries[0])
+        res.json(response)
+    }
+    catch (err) {
+        res.sendStatus(400).send(err)
+    }
+}
+
+export default { getEntries, addEntry, updateEntry, deleteEntry, getEntry, getEntryByDocument }

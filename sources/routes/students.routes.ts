@@ -13,4 +13,7 @@ studentsRouter.route('/:id')
     .put(controller.updateEntry)
     .delete(controller.deleteEntry)
 
+studentsRouter.route('/document/:id')
+    .get(controller.getEntryByDocument)
+
 export default studentsRouter
